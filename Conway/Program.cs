@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Conway
@@ -29,6 +30,7 @@ namespace Conway
 
 			// Load the specified file.
 			PointSet currentState = Load(args[0]);
+			var generations = new List<PointSet> { currentState };
 
 			// Print out the starting layout.
 			Console.WriteLine("Start:");
@@ -37,6 +39,7 @@ namespace Conway
 			for (int i = 0; i < ticks; i++)
 			{
 				currentState = currentState.Tick();
+				generations.Add(currentState);
 
 				// Here is where you would save or display the current state.
 			}
