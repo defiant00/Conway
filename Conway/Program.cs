@@ -10,6 +10,7 @@ namespace Conway
 			Console.WriteLine("Conway's Game of Life v1.0");
 			Console.WriteLine();
 
+			// Time it.
 			var start = DateTime.Now;
 
 			if (args.Length != 2)
@@ -18,6 +19,7 @@ namespace Conway
 				return;
 			}
 
+			// Get tick count.
 			bool res = int.TryParse(args[1], out int ticks);
 			if (!res)
 			{
@@ -25,28 +27,33 @@ namespace Conway
 				return;
 			}
 
-			State current = Load(args[0]);
+			// Load the specified file.
+			PointSet currentState = Load(args[0]);
 
+			// Print out the starting layout.
 			Console.WriteLine("Start:");
-			Console.WriteLine(current);
+			Console.WriteLine(currentState);
 
 			for (int i = 0; i < ticks; i++)
 			{
-				current = current.Tick();
+				currentState = currentState.Tick();
 
-				// Here is where you would store/save/display the current state.
+				// Here is where you would save or display the current state.
 			}
 
 			Console.WriteLine();
+			// Print out the ending layout.
 			Console.WriteLine("End:");
-			Console.WriteLine(current);
+			Console.WriteLine(currentState);
 			Console.WriteLine();
 			Console.WriteLine($"{ticks} tick(s) calculated, elapsed time: {DateTime.Now - start}");
 		}
 
-		public static State Load(string fileName)
+		// Load a layout from the specified filename.
+		// File content should be a set of points in X, Y format.
+		public static PointSet Load(string fileName)
 		{
-			var state = new State();
+			var state = new PointSet();
 
 			string[] lines = File.ReadAllLines(fileName);
 			foreach (string line in lines)
